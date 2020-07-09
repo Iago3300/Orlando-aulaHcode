@@ -18,7 +18,7 @@
     	<div id= "menu-mobile" class="d-block d-sm-none">
     		<ul class="list-unstyled">
                                                          
-                <li><a href="videos.html">Videos</a></li>
+                <li><a href="videos.php">Videos</a></li>
                         
                 <li><a href="#">Tickets</a></li>
  
@@ -84,11 +84,11 @@
                     
                     <ul>
                     
-                        <li><a href="#">Home</a></li>
+                        <li><a href="index.php">Home</a></li>
                         
-                        <li><a href="videos.html">Videos</a></li>
+                        <li><a href="videos">Videos</a></li>
                         
-                        <li><a href="#">Tickets</a></li>
+                        <li><a href="shop">Tickets</a></li>
  
                         <li><a href="#">News</a></li>
                         
