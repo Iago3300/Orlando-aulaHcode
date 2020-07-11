@@ -115,7 +115,9 @@
 <script src ="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src ="lib/owl.carousel/dist/owl.carousel.min.js"></script>
 <script src ="lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="js/efeitos.js"></script>
+<script src ="lib/raty/lib/jquery.raty.js"></script>
+<script src ="js/efeitos.js"></script>
+
  
 </body>
 </html>
