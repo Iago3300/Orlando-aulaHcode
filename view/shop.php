@@ -4,10 +4,10 @@
     <div class="container" id="destaque-produtos-container" ng-controller="destaque-controller">
         <div id="destaque-produtos"  class="owl-carousel owl-theme">
 
-            <div class="item row" ng-repeat="produto in produtos">
+            <div class="item row"  ng-repeat="produto in produtos">
 
                 <div class="col-sm-6 col-imagem">
-                    <img src="img/produtos/{{produto.foto_principal}}" alt="{{produto.nome_prod_longo}}">                    
+                    <img ng-src="img/produtos/{{produto.foto}}" alt="{{produto.nome_prod_longo}}">                    
                 </div>
 
                 <div class="col-sm-6 col-descricao">
@@ -144,37 +144,17 @@
 
 <script>
 
-    angular.module("shop", []).controller("destaque-controller", function($scope){
+angular.module("shop", []).controller("destaque-controller", function($scope, $http){
 
-        $scope.produtos = [];
+    $scope.produtos = [];
 
-        $scope.produtos.push({
-            nome_prod_longo:"SmartPhone Motorola Moto X Play Dual Chip Desbloqueado Android 5.1",
-            foto_principal:"moto-x.png",
-            preco:"1.259",
-            centavos:"10",
-            parcelas:"8",
-            parcela:"174,88",
-            total:"1.399,00"
+    var initCarousel = function(){
+        $("#destaque-produtos").owlCarousel({
+
+            autoplay: 5000,
+            items:1,
+            singleItem: true,
         });
-        $scope.produtos.push({
-            nome_prod_longo:"Iphone",
-            foto_principal:"moto-x.png",
-            preco:"1.259",
-            centavos:"10",
-            parcelas:"8",
-            parcela:"174,88",
-            total:"1.399,00"
-        });
-    });
-
-
-    $("#destaque-produtos").owlCarousel({
-
-        autoplay: 5000,
-        items:1,
-        singleItem: true,
-    });
 
     var owl = $("#destaque-produtos");
 
@@ -187,7 +167,46 @@
         $('#btn-destaque-next').on("click", function(){
                 owl.trigger('next.owl.carousel');
         });
+    };   
+   
+    $http({
+      method: 'GET',
+      url: 'produtos'
+    }).then(function successCallback(response) {
 
+      $scope.produtos = response.data;
+
+     setTimeout(initCarousel, 1000);
+
+      }, function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+      });
+
+     /*
+    $scope.produtos.push({
+        nome_prod_longo:"SmartPhone Motorola Moto X Play Dual Chip Desbloqueado Android 5.1",
+        foto:"moto-x.png",
+        preco:"1.259",
+        centavos:"10",
+        parcelas:"8",
+        parcela:"174,88",
+        total:"1.399,00"
+    });
+              
+    $scope.produtos.push({
+        nome_prod_longo:"Iphone",
+        foto:"iphone.jpg",
+        preco:"1.259",
+        centavos:"10",
+        parcelas:"8",
+        parcela:"174,88",
+        total:"1.399,00"
+    });*/
+
+});
+
+$(function(){
     $('.estrelas').each(function(){
         $(this).raty({            
             starHalf: 'lib/raty/lib/images/star-half.png',
@@ -198,6 +217,7 @@
         
     });
 
+});
 
 </script>
 
