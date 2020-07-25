@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 class Sql {
 
 public $conn;
@@ -25,7 +27,7 @@ public function select($string_query){
 	while ($row = mysqli_fetch_array($result)) {
 
 		foreach ($row as $key => $value) {
-			$row[$key] = utf8_encode($value);
+			/*$row[$key] = utf8_encode($value);*/
 		}
 		
 		array_push($data, $row);

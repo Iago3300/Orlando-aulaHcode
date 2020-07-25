@@ -1,16 +1,18 @@
 <?php include_once("header.php");?>
 
-<section>
-    <div class="container" id="destaque-produtos-container" ng-controller="destaque-controller">
+<section ng-controller="destaque-controller">
+    <div class="container" id="destaque-produtos-container">
         <div id="destaque-produtos"  class="owl-carousel owl-theme">
 
             <div class="item row"  ng-repeat="produto in produtos">
 
-                <div class="col-sm-6 col-imagem">
-                    <img ng-src="img/produtos/{{produto.foto}}" alt="{{produto.nome_prod_longo}}">                    
+                <div class="col-sm-6 col-imagem-prod  float-left">
+                    <a href="produto-{{produto.id_prod}}">
+                    <img ng-src="img/produtos/{{produto.foto_principal}}" alt="{{produto.nome_prod_longo}}">
+                    </a>                   
                 </div>
 
-                <div class="col-sm-6 col-descricao">
+                <div class="col-sm-6 col-descricao  float-right">
                     <h2>{{produto.nome_prod_longo}}</h2>
 
                     <div class="box-valor">
@@ -25,14 +27,11 @@
                     <div><a href="#" class="btn-btn-comprar text-roxo"><i class="fa fa-shopping-cart"></i> compre agora</a></div>                    
                 </div>                
             </div>
-
-            
-            
-
         </div>
-            <button type="button" id="btn-destaque-prev"><i class="fa fa-angle-left"></i></button>
-            <button type="button" id="btn-destaque-next"><i class="fa fa-angle-right"></i></button>
+        <button type="button" id="btn-destaque-prev"><i class="fa fa-angle-left"></i></button>
+        <button type="button" id="btn-destaque-next"><i class="fa fa-angle-right"></i></button>
     </div>
+            
 
     <div id="promocoes" class="container">
         <div class="row">
@@ -86,56 +85,21 @@
             <hr>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3" ng-repeat="produto in buscados">
                 <div class="box-produto-info">
-                    <a href="#">
-                    <img src="img/produtos/panelas.jpg" alt="panelas" class="produto-img">
-                    <h3>Conjunto de Panelas Tramontina Versahles Alumínio Antiaderente</h3>
-                    <div class="estrelas" data-score="3"></div>                    
-                    <div class="text-qtd-reviews text-arial-cinza">(300)</div>
-                    <div class="text-valor text-roxo">R$ 109,90</div>
-                    <div class="text-valor-parcelado text-arial-cinza">10x de R$ 10,99 sem juros</div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="box-produto-info">
-                    <a href="#">
-                    <img src="img/produtos/panelas.jpg" alt="panelas" class="produto-img">
-                    <h3>Conjunto de Panelas Tramontina Versahles Alumínio Antiaderente</h3>
-                    <div class="estrelas" data-score="5"></div>                    
-                    <div class="text-qtd-reviews text-arial-cinza">(300)</div>
-                    <div class="text-valor text-roxo">R$ 109,90</div>
-                    <div class="text-valor-parcelado text-arial-cinza">10x de R$ 10,99 sem juros</div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="box-produto-info">
-                    <a href="#">
-                    <img src="img/produtos/panelas.jpg" alt="panelas" class="produto-img">
-                    <h3>Conjunto de Panelas Tramontina Versahles Alumínio Antiaderente</h3>
-                    <div class="estrelas" data-score="1"></div>                    
-                    <div class="text-qtd-reviews text-arial-cinza">(300)</div>
-                    <div class="text-valor text-roxo">R$ 109,90</div>
-                    <div class="text-valor-parcelado text-arial-cinza">10x de R$ 10,99 sem juros</div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="box-produto-info">
-                    <a href="#">
-                    <img src="img/produtos/panelas.jpg" alt="panelas" class="produto-img">
-                    <h3>Conjunto de Panelas Tramontina Versahles Alumínio Antiaderente</h3>
-                    <div class="estrelas" data-score="2.5"></div>                    
-                    <div class="text-qtd-reviews text-arial-cinza">(300)</div>
-                    <div class="text-valor text-roxo">R$ 109,90</div>
-                    <div class="text-valor-parcelado text-arial-cinza">10x de R$ 10,99 sem juros</div>
+                    <a href="produto-{{produto.id_prod}}">
+                    <img ng-src="img/produtos/{{produto.foto_principal}}" alt="{{produto.nome_prod_longo}}" class="produto-img">
+                    <h3>"{{produto.nome_prod_longo}}"</h3>
+                    <div class="estrelas" data-score="{{produto.media}}"></div>                    
+                    <div class="text-qtd-reviews text-arial-cinza">({{produto.total_reviews}})</div>
+                    <div class="text-valor text-roxo">{{produto.total}}</div>
+                    <div class="text-valor-parcelado text-arial-cinza">{{produto.parcelas}}x de R$ {{produto.parcela}} sem juros</div>
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
 
 
 </section>
@@ -144,80 +108,73 @@
 
 <script>
 
-angular.module("shop", []).controller("destaque-controller", function($scope, $http){
+    angular.module("shop", []).controller("destaque-controller", function($scope, $http){
 
-    $scope.produtos = [];
+        $scope.produtos = [];
 
-    var initCarousel = function(){
-        $("#destaque-produtos").owlCarousel({
+        var initCarousel = function(){
 
-            autoplay: 5000,
-            items:1,
-            singleItem: true,
-        });
+            $("#destaque-produtos").owlCarousel({
+                loop:true,
+                autoplay:true,
+                autoplayTimeout:5000,
+                autoplayHoverPause:true,
+                items: 1,
+                singleItem:true
+            });
 
-    var owl = $("#destaque-produtos");
+        var owl = $("#destaque-produtos");
 
-        owl.owlCarousel();
+            owl.owlCarousel({});
 
-        $('#btn-destaque-prev').on("click", function(){
-            owl.trigger('prev.owl.carousel');
-        });
+            $('#btn-destaque-prev').on("click", function(){
+                owl.trigger('prev.owl.carousel');
+            });
 
-        $('#btn-destaque-next').on("click", function(){
-                owl.trigger('next.owl.carousel');
-        });
-    };   
-   
-    $http({
-      method: 'GET',
-      url: 'produtos'
-    }).then(function successCallback(response) {
+            $('#btn-destaque-next').on("click", function(){
+                    owl.trigger('next.owl.carousel');
+            });
+        };   
+       
+        $http({
+          method: 'GET',
+          url: 'produtos'
+        }).then(function successCallback(response) {
 
-      $scope.produtos = response.data;
+          $scope.produtos = response.data;
 
-     setTimeout(initCarousel, 1000);
+         setTimeout(initCarousel, 1000);
 
-      }, function errorCallback(response) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
-      });
+          }, function errorCallback(response) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+          });
+        
+        var initEstrelas = function(){
 
-     /*
-    $scope.produtos.push({
-        nome_prod_longo:"SmartPhone Motorola Moto X Play Dual Chip Desbloqueado Android 5.1",
-        foto:"moto-x.png",
-        preco:"1.259",
-        centavos:"10",
-        parcelas:"8",
-        parcela:"174,88",
-        total:"1.399,00"
-    });
-              
-    $scope.produtos.push({
-        nome_prod_longo:"Iphone",
-        foto:"iphone.jpg",
-        preco:"1.259",
-        centavos:"10",
-        parcelas:"8",
-        parcela:"174,88",
-        total:"1.399,00"
-    });*/
-
-});
-
-$(function(){
-    $('.estrelas').each(function(){
+            $('.estrelas').each(function(){
         $(this).raty({            
             starHalf: 'lib/raty/lib/images/star-half.png',
             starOff: 'lib/raty/lib/images/star-off.png',
             starOn: 'lib/raty/lib/images/star-on.png',
             score: parseFloat($(this).data("score"))
         });
-        
-    });
 
+        });
+        }
+
+        $http({
+            method:'GET',
+            url:'produtos-mais-buscados'
+        }).then(function successCallback(response){
+            $scope.buscados = response.data;
+            setTimeout(initEstrelas, 1000);
+        }, function errorCallback (response){
+
+        });
 });
+
+
 
 </script>
 
