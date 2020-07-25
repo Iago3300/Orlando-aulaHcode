@@ -145,9 +145,9 @@ $app->get('/carrinho-dados', function(){
 
     $carrinho['produtos'] = $sql->select("CALL sp_carrinhosprodutos_list('".$carrinho['id_car']."')");
 
-    $carrinho['total_car'] = number_format((float)$carrinho['total_car'], 2, ',','.');
-    $carrinho['subtotal_car'] = number_format((float)$carrinho['subtotal_car'], 2, ',','.');
-    $carrinho['frete_car'] = number_format((float)$carrinho['frete_car'], 2, ',','.');
+    $carrinho['total_car'] = number_format($carrinho['total_car'], 2, ',','.');
+    $carrinho['subtotal_car'] = number_format($carrinho['subtotal_car'], 2, ',','.');
+    $carrinho['frete_car'] = number_format($carrinho['frete_car'], 2, ',','.');
 
 	echo json_encode($carrinho);
 });
